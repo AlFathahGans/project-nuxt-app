@@ -1,0 +1,42 @@
+rmdir /s /q project-nuxt-app
+
+rmdir /s /q node_modules
+del package-lock.json
+
+rm -rf .nuxt
+
+npx nuxi@latest init project-nuxt-app
+
+cd project-nuxt-app
+
+npm run dev -- -o
+
+npm install @nuxtjs/tailwindcss
+
+npx tailwindcss init
+npm install @headlessui/vue
+npm install yup zod
+
+
+mkdir assets\css
+mkdir components
+mkdir composables
+mkdir layout
+mkdir middleware
+mkdir modules
+mkdir pages
+mkdir server
+mkdir server\api
+mkdir server\middleware
+mkdir server\repositories
+mkdir server\services
+
+echo. > app.config.ts
+echo. > tailwind.config.ts
+echo. > README.md
+echo. > eslint.config.mjs
+echo. > server\repositories\user.ts
+echo. > pages\login.vue
+echo. > pages\home.vue
+echo. > pages\admin.vue
+
