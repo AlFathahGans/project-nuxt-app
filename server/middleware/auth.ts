@@ -22,4 +22,10 @@ export default defineEventHandler(async (event) => {
     console.log('Redirecting to home, session found');
     return sendRedirect(event, '/home');
   }
+
+   // Jika pengguna mengakses root URL dan ada sesi, redirect ke home
+   if (event.node.req.url === '/') {
+    console.log('Redirecting to home from root URL');
+    return sendRedirect(event, '/home');
+  }
 });
