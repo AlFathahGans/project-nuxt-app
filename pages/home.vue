@@ -27,7 +27,7 @@ const isAdmin = computed(() => {
   const session = sessionCookie.value;
   return session && session.user && session.user.role === "admin";
 });
-
+  
 const isEmployee = computed(() => {
   const session = sessionCookie.value;
   return session && session.user && session.user.role === "employee";
@@ -46,7 +46,7 @@ const userName = computed(() => {
 });
 
 const logout = async () => {
-  await fetch('/api/logout'); // Panggil endpoint logout
+  await useFetch('/api/logout'); // Panggil endpoint logout
   window.location.href = "/login"; // Redirect ke halaman login
 };
 </script>

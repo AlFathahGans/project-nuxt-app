@@ -14,7 +14,7 @@
 import { useFetch  } from "#app";
 
 const logout = async () => {
-  await fetch('/api/logout'); // Panggil endpoint logout
+  await useFetch('/api/logout'); // Panggil endpoint logout
   window.location.href = "/login"; // Redirect ke halaman login
 };
 </script>
