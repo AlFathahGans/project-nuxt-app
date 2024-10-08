@@ -45,7 +45,7 @@ const userName = computed(() => {
 });
 
 const logout = () => {
-  document.cookie = "session=; Max-Age=0; path=/"; // Hapus cookie secara eksplisit
+  sessionCookie.value = null; // Hapus cookie secara eksplisit
   window.location.href = "/login"; // Redirect ke halaman login
 };
 </script>

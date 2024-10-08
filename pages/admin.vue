@@ -13,10 +13,10 @@
 <script setup lang="ts">
 import { useCookie } from "#app";
 
-const cookie = useCookie("session"); // Ganti dengan nama cookie yang ingin dihapus
+const sessionCookie = useCookie("session"); // Ganti dengan nama cookie yang ingin dihapus
 
 const logout = () => {
-  document.cookie = "session=; Max-Age=0; path=/"; // Hapus cookie secara eksplisit
+  sessionCookie.value = null; // Hapus cookie secara eksplisit
   window.location.href = "/login"; // Redirect ke halaman login
 };
 </script>
