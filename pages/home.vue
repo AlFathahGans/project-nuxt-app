@@ -1,4 +1,5 @@
-<template>
+1m/'
+'<template>
   <div class="flex flex-col items-center justify-center h-screen bg-gray-50">
     <h1 class="text-3xl font-bold mb-4">
       Selamat Datang {{ userName }} di Halaman Utama
@@ -17,7 +18,7 @@
 </template>
 
 <script setup lang="ts">
-import { useCookie } from "#app";
+import { useCookie, useFetch  } from "#app";
 import { computed } from "vue";
 
 const sessionCookie = useCookie("session");
@@ -44,8 +45,8 @@ const userName = computed(() => {
   return "Guest";
 });
 
-const logout = () => {
-  sessionCookie.value = null; // Hapus cookie secara eksplisit
+const logout = async () => {
+  await fetch('/api/logout'); // Panggil endpoint logout
   window.location.href = "/login"; // Redirect ke halaman login
 };
 </script>

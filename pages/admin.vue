@@ -11,12 +11,10 @@
 </template>
 
 <script setup lang="ts">
-import { useCookie } from "#app";
+import { useFetch  } from "#app";
 
-const sessionCookie = useCookie("session"); // Ganti dengan nama cookie yang ingin dihapus
-
-const logout = () => {
-  sessionCookie.value = null; // Hapus cookie secara eksplisit
+const logout = async () => {
+  await fetch('/api/logout'); // Panggil endpoint logout
   window.location.href = "/login"; // Redirect ke halaman login
 };
 </script>

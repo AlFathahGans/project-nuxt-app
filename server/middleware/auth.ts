@@ -1,4 +1,4 @@
-import { defineEventHandler, getCookie, sendRedirect } from 'h3';
+             import { defineEventHandler, getCookie, sendRedirect } from 'h3';
 
 export default defineEventHandler(async (event) => {
   const session = getCookie(event, 'session');
