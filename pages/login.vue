@@ -31,10 +31,10 @@
   </div>
 </template>
 
-
 <script lang="ts">
 import { defineComponent } from 'vue';
 import * as yup from 'yup';
+import { useFetch } from '#app';
 
 export default defineComponent({
   data() {
@@ -52,24 +52,23 @@ export default defineComponent({
       this.errors = {};
       
       const schema = yup.object().shape({
-        username: yup.string().min(4).required(),
-        password: yup.string().min(4).required(),
+        username: yup.string().min(4, 'Username must be at least 4 characters').required('Username is required'),
+        password: yup.string().min(4, 'Password must be at least 4 characters').required('Password is required'),
       });
 
       try {
         await schema.validate({ username: this.username, password: this.password });
 
-        const response = await fetch('/api/auth', {
+        const { data, error } = await useFetch('/api/auth', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ username: this.username, password: this.password }),
         });
 
-        if (response.ok) {
-          const data = await response.json();
-          if (data.redirect) window.location.href = data.redirect;
-        } else {
+        if (error.value) {
           this.generalError = 'Login failed, please try again.';
+        } else if (data.value.redirect) {
+          window.location.href = data.value.redirect;
         }
       } catch (error) {
         if (error.name === 'ValidationError') {
