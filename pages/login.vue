@@ -31,51 +31,56 @@
   </div>
 </template>
 
-<script setup lang="ts">
-import { ref } from "vue";
-import * as yup from "yup";
 
-const username = ref("");
-const password = ref("");
-const errors = ref({ username: "", password: "" });
-const generalError = ref("");
-const isLoading = ref(false);
+<script lang="ts">
+import { defineComponent } from 'vue';
+import * as yup from 'yup';
 
-const schema = yup.object().shape({
-  username: yup.string().min(4, "Must be at least 4 characters").required("Required"),
-  password: yup.string().min(4, "Must be at least 4 characters").required("Required"),
-});
+export default defineComponent({
+  data() {
+    return {
+      username: '',
+      password: '',
+      errors: {},
+      generalError: '',
+      isLoading: false,
+    };
+  },
+  methods: {
+    async handleLogin() {
+      this.isLoading = true;
+      this.errors = {};
+      
+      const schema = yup.object().shape({
+        username: yup.string().min(4).required(),
+        password: yup.string().min(4).required(),
+      });
 
-async function handleLogin() {
-  isLoading.value = true;
+      try {
+        await schema.validate({ username: this.username, password: this.password });
 
-  try {
-    await schema.validate({ username: username.value, password: password.value });
+        const response = await fetch('/api/auth', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username: this.username, password: this.password }),
+        });
 
-    const response = await fetch('/api/auth', {
-      method: "POST",
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ username: username.value, password: password.value }),
-    });
-
-    if (response.ok) {
-      const data = await response.json();
-      if (data.redirect) {
-        window.location.href = data.redirect;
+        if (response.ok) {
+          const data = await response.json();
+          if (data.redirect) window.location.href = data.redirect;
+        } else {
+          this.generalError = 'Login failed, please try again.';
+        }
+      } catch (error) {
+        if (error.name === 'ValidationError') {
+          this.errors[error.path] = error.message;
+        } else {
+          this.generalError = 'Invalid credentials, please try again.';
+        }
+      } finally {
+        this.isLoading = false;
       }
-    } else {
-      generalError.value = "Login failed, please try again.";
-    }
-  } catch (error) {
-    if (error.name === "ValidationError") {
-      errors.value = { ...errors.value, [error.path]: error.message };
-    } else {
-      generalError.value = "Invalid credentials, please try again.";
-    }
-  } finally {
-    isLoading.value = false;
-  }
-}
+    },
+  },
+});
 </script>
