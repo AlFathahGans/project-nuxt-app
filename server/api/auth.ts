@@ -9,12 +9,12 @@ const schema = z.object({
 
 export default defineEventHandler(async (event) => {
   try {
-    console.log("Request received");
+    // console.log("Request received");
     const body = await readBody(event);
-    console.log("Body read:", body);
+    // console.log("Body read:", body);
     const parsed = schema.parse(body);
     const isValidUser = await getUser(parsed.username, parsed.password);
-    console.log("Is valid user:", isValidUser);
+    // console.log("Is valid user:", isValidUser);
 
     if (isValidUser) {
       const role = parsed.username === "admin" ? "admin" : "employee";
@@ -36,7 +36,7 @@ export default defineEventHandler(async (event) => {
       });
     }
   } catch (error) {
-    console.error("Error in auth handler:", error);
+    // console.error("Error in auth handler:", error);
     throw createError({
       statusCode: 500,
       statusMessage: "Internal Server Error",
