@@ -10,20 +10,11 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue';
-import { useFetch } from '#app';
+<script setup lang="ts">
+import { useFetch  } from "#app";
 
-export default defineComponent({
-  methods: {
-    async logout() {
-      await useFetch('/api/logout'); // Panggil endpoint logout
-      window.location.href = '/login'; // Redirect ke halaman login
-    },
-  },
-});
+const logout = async () => {
+  await useFetch('/api/logout'); // Panggil endpoint logout
+  window.location.href = "/login"; // Redirect ke halaman login
+};
 </script>
-
-<style>
-/* Style sesuai kebutuhan */
-</style>
