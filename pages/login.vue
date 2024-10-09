@@ -85,7 +85,7 @@ export default defineComponent({
           password: this.password,
         });
 
-        const { data, error } = await useFetch("/api/auth", {
+        const { data, error } = await useFetch('/api/auth', {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
